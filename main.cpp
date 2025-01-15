@@ -32,7 +32,7 @@ int main(void)
     
     Time Tm;
     
-    MapEditor ME;//Map object
+    MapEditor ME(screenWidth, screenHeight, Block_Size, Grid_Size_x, Grid_Size_y);//Map object
     
     Rectangle Player1Attack[Grid_Size_x] = {0};
     //Rectangle Player2Attack[Grid_Size_y] = {0};
@@ -116,7 +116,7 @@ int main(void)
                 
                 EndMode2D();
                 
-                ME.DeathScreen(&Player1, &Player2, screenWidth, screenHeight, Play_button);
+                ME.DeathScreen(&Player1, &Player2, Play_button);
             
 
             EndDrawing();
@@ -125,7 +125,7 @@ int main(void)
         }
         
         
-        
+        //MAIN MENU ==================================================================================================================
         while( (screen==main_menu) and (!WindowShouldClose()) )
         {
             // Update
