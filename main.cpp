@@ -1,11 +1,12 @@
 #include <iostream>
+#include <vector>
 #include "Headers\Map_Editor.h"
 #include "Headers\Player_Obj.h"
 #include "Headers\Colliders.h"
 #include "Headers\NPO.h"
 #include "Headers\Timers.h"
 #include "raylib.h"
-using namespace std;
+using std::vector;
 int main(void)
 {
     
@@ -32,9 +33,9 @@ int main(void)
     
     Time Tm;
     
-    MapEditor ME(screenWidth, screenHeight, Block_Size, Grid_Size_x, Grid_Size_y);//Map object
+    MapEditor ME((float)screenWidth, (float)screenHeight, (float)Block_Size, (float)Grid_Size_x, (float)Grid_Size_y);//Map object
     
-    Rectangle Player1Attack[Grid_Size_x] = {0};
+    vector<Rectangle> Player1Attack;
     //Rectangle Player2Attack[Grid_Size_y] = {0};
     
     PlayerObj Pl(0,0,(Rectangle){0,0,0,0});//player object
@@ -50,8 +51,7 @@ int main(void)
      
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
-        int P1Attack=0;
-        int P2Attack=0;
+        
         
         while( (screen==play) and (!WindowShouldClose()) )
         {
@@ -78,15 +78,12 @@ int main(void)
             }
             
             if (IsKeyPressed(KEY_Q)){
-                P1Attack = Grid_Size_x;
+                Player1Attack = {};
+                vector<int> Pattern = {4}; // 4,5,6,7 still in progress ?!?!?!?!?!??!??!?!?!?!?!?!?
                 Tm.StartTimer(2);
-                ME.AttackHorizontal(Player1.Pos, Grid_Size_x, Block_Size,Player1Attack);
+                ME.AttackLine(Player1.Pos, Player1Attack, Pattern);
             }
-            else if(IsKeyPressed(KEY_E)){
-                P1Attack = Grid_Size_y;
-                Tm.StartTimer(2);
-                ME.AttackVertical(Player1.Pos, Grid_Size_y, Block_Size,Player1Attack);
-            }
+        
             // Draw
             //----------------------------------------------------------------------------------
             
@@ -109,9 +106,12 @@ int main(void)
                     DrawRectangleRec( Player2.Pos , BLUE);
                     
                     if ( not Tm.IsTimerUp()){                          
-                        for(int x=0; x<P1Attack; x++){
-                            DrawRectangleRec( Player1Attack[x] , RED);
+                        for(int x=0; x<(int)Player1Attack.size(); x++){
+                        DrawRectangleRec( Player1Attack.at(x) , RED);
                         }
+                    }
+                    else{
+                        Player1Attack = {};
                     }
                 
                 EndMode2D();
