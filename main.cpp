@@ -3,7 +3,6 @@
 #include "Headers\Map_Editor.h"
 #include "Headers\Player_Obj.h"
 #include "Headers\Colliders.h"
-#include "Headers\NPO.h"
 #include "Headers\Timers.h"
 #include "raylib.h"
 using std::vector;
@@ -24,7 +23,8 @@ int main(void)
     const Rectangle Play_button = {screenWidth/2.0f-100,screenHeight/2.0f-25,200,50};//Main menu parramiter
     
     InitWindow(screenWidth, screenHeight, "PvP_GAME");
-    
+    Texture2D P1 = LoadTexture("Sprite_Sheets/player1.png");
+    Texture2D P2 = LoadTexture("Sprite_Sheets/player2.png");
     SetTargetFPS(60);
     
     int screen = 1; //current screen being displayed (Main menu parramiter)
@@ -79,7 +79,7 @@ int main(void)
             
             if (IsKeyPressed(KEY_Q)){
                 Player1Attack = {};
-                vector<int> Pattern = {4}; // 4,5,6,7 still in progress ?!?!?!?!?!??!??!?!?!?!?!?!?
+                vector<int> Pattern = {7}; 
                 Tm.StartTimer(2);
                 ME.AttackLine(Player1.Pos, Player1Attack, Pattern);
             }
@@ -102,8 +102,8 @@ int main(void)
                         DrawLine(0,y,Grid_Size_x*Block_Size,y,BLACK);
                     }
                 //------------------------------------------------------------------------------
-                    DrawRectangleRec( Player1.Pos , RED);
-                    DrawRectangleRec( Player2.Pos , BLUE);
+                    DrawTexture(P1,Player1.Pos.x,Player1.Pos.y,WHITE);
+                    DrawTexture(P2,Player2.Pos.x,Player2.Pos.y,WHITE);
                     
                     if ( not Tm.IsTimerUp()){                          
                         for(int x=0; x<(int)Player1Attack.size(); x++){
@@ -144,12 +144,10 @@ int main(void)
                 ClearBackground(RAYWHITE);
                 // Draw the play button on the screen and turn black when pressed
                 DrawRectangleRec(Play_button,(Color) {225,225,225,225});
-                
                 // Draw Text on the Main Menu screen 
                 DrawText("PLAY", screenWidth/2.0f-25, screenHeight/2.0f-12, 20.0f, BLACK);
                 
 
-                
     
             EndDrawing();
             
@@ -162,7 +160,9 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
+    UnloadTexture(P1);
+    UnloadTexture(P2);
+    CloseWindow();     // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
     return 0;

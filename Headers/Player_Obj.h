@@ -62,6 +62,10 @@ class PlayerObj
                 Player2->Pos = Temp2;
             }
     }
+    
+    //void DrawPlayerStat(){
+    //    DrawText("Main Menu", screenWidth/2.0f-50, screenHeight/2.0f-12, 20.0f, BLACK);
+    //}
 };
 
 #endif //Player_Obj

@@ -71,7 +71,7 @@ class MapEditor
             }
             else if(angles.at(i)==4){//SE
                 float x = pos.x, y = pos.y, temp=0;
-                while((x<=(pos.x+pos.y))and(y<=Grid_Size_y)){
+                while((x<=pos.x+(Grid_Size_y-pos.y))and(y<Grid_Size_y)){
                     list.push_back((Rectangle){x*Block_Size, y*Block_Size, Block_Size, Block_Size});
                     x++;
                     y++;
@@ -87,7 +87,7 @@ class MapEditor
             }
             else if(angles.at(i)==6){//SW
                 float x = pos.x, y = pos.y, temp=0;
-                while((x<=(pos.x-(Grid_Size_y-pos.y)))and(y<=Grid_Size_y)){
+                while((x>=(pos.x-(Grid_Size_y-pos.y)))and(y<Grid_Size_y)){
                     list.push_back((Rectangle){x*Block_Size, y*Block_Size, Block_Size, Block_Size});
                     x--;
                     y++;
