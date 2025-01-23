@@ -12,6 +12,10 @@ class Time
         End = Time+sec;
     }
     
+    float CurrentTime(){
+        return End - Time;
+    }
+    
     void UpdateTimer(){
         Time += GetFrameTime();
     }

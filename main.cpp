@@ -25,11 +25,19 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "PvP_GAME");
     Texture2D P1 = LoadTexture("Sprite_Sheets/player1.png");
     Texture2D P2 = LoadTexture("Sprite_Sheets/player2.png");
+    Texture2D FB = LoadTexture("Sprite_Sheets/FireBall.png");
     SetTargetFPS(60);
     
+    int Player1Type = 0;
+    int Player2Type = 0;
     int screen = 1; //current screen being displayed (Main menu parramiter)
     int main_menu = 1;//Main menu parramiter
     int play = 2;//Main menu parramiter
+    
+    bool P1Atk = true;
+    bool P2Atk = true;
+    
+    float DeltaTime = 0.00f;
     
     Time Tm;
     
@@ -55,6 +63,7 @@ int main(void)
         
         while( (screen==play) and (!WindowShouldClose()) )
         {
+            DeltaTime = GetFrameTime();
             // Update
             //---------------------------------------------------------------------------------
             
@@ -76,14 +85,15 @@ int main(void)
             if ((CheckCollisionPointRec(GetMousePosition(), Play_button)) and IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
                 screen = 1;
             }
-            
-            if (IsKeyPressed(KEY_Q)){
-                Player1Attack = {};
-                vector<int> Pattern = {7}; 
-                Tm.StartTimer(2);
-                ME.AttackLine(Player1.Pos, Player1Attack, Pattern);
+            if(P1Atk){
+                if (IsKeyPressed(KEY_Q)){
+                    Player1Type = 1;
+                    Player1Attack = {};
+                    vector<int> Pattern = {1}; 
+                    Tm.StartTimer(1.5);
+                    ME.AttackLine(Player1.Pos, Player1Attack, Pattern);
+                }
             }
-        
             // Draw
             //----------------------------------------------------------------------------------
             
@@ -105,12 +115,20 @@ int main(void)
                     DrawTexture(P1,Player1.Pos.x,Player1.Pos.y,WHITE);
                     DrawTexture(P2,Player2.Pos.x,Player2.Pos.y,WHITE);
                     
-                    if ( not Tm.IsTimerUp()){                          
-                        for(int x=0; x<(int)Player1Attack.size(); x++){
-                        DrawRectangleRec( Player1Attack.at(x) , RED);
+                    if ( not Tm.IsTimerUp()){  
+                        if(Player1Type == 1){
+                            float TimeStamp = 0.20f;
+                            P1Atk = false;
+                            P2Atk = false;
+                            int Time = (int)((Tm.CurrentTime()/TimeStamp));// how to fix? This is in reverse ?????!!!???11!???!?!?!?!?!?!?!?!?
+                            if(Time<(int)Player1Attack.size()){
+                                DrawTexture(FB,Player1Attack.at(Time).x,Player1Attack.at(Time).y,WHITE);
+                            }
                         }
                     }
                     else{
+                        P1Atk = true;
+                        P2Atk = true;
                         Player1Attack = {};
                     }
                 
@@ -160,6 +178,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
+    UnloadTexture(FB);
     UnloadTexture(P1);
     UnloadTexture(P2);
     CloseWindow();     // Close window and OpenGL context

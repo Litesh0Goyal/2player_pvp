@@ -47,14 +47,13 @@ class MapEditor
         for(int i=0; i < (int)angles.size(); i++ ){
             if(angles.at(i)==1){//^^^ N
                 int temp=0;
-                for(float y=pos.y; y>=0; y--){
+                for(float y=pos.y-1; y>=0; y--){
                     list.push_back((Rectangle){pos.x*Block_Size, y*Block_Size, Block_Size, Block_Size});
                     temp++;
                 }
             }
             else if(angles.at(i)==2){//NE
-                float x = pos.x, y = pos.y, temp=0;
-                std::cout<<x<<y<<std::endl;
+                float x = pos.x+1, y = pos.y-1, temp=0;
                 while((x<=(pos.x+pos.y))and(y>=0)){
                     list.push_back((Rectangle){x*Block_Size, y*Block_Size, Block_Size, Block_Size});
                     x++;
@@ -70,7 +69,7 @@ class MapEditor
                 }
             }
             else if(angles.at(i)==4){//SE
-                float x = pos.x, y = pos.y, temp=0;
+                float x = pos.x+1, y = pos.y+1, temp=0;
                 while((x<=pos.x+(Grid_Size_y-pos.y))and(y<Grid_Size_y)){
                     list.push_back((Rectangle){x*Block_Size, y*Block_Size, Block_Size, Block_Size});
                     x++;
@@ -86,7 +85,7 @@ class MapEditor
                 }
             }
             else if(angles.at(i)==6){//SW
-                float x = pos.x, y = pos.y, temp=0;
+                float x = pos.x-1, y = pos.y+1, temp=0;
                 while((x>=(pos.x-(Grid_Size_y-pos.y)))and(y<Grid_Size_y)){
                     list.push_back((Rectangle){x*Block_Size, y*Block_Size, Block_Size, Block_Size});
                     x--;
@@ -96,13 +95,13 @@ class MapEditor
             }
             else if(angles.at(i)==7){// <<< W
                 int temp=0;
-                for(float x=pos.x+1; x>=0; x--){
+                for(float x=pos.x-1; x>=0; x--){
                     list.push_back((Rectangle){x*Block_Size,pos.y*Block_Size, Block_Size, Block_Size});
                     temp++;
                 }
             }
             else if(angles.at(i)==8){//NW
-                float x = pos.x, y = pos.y, temp=0;
+                float x = pos.x-1, y = pos.y-1, temp=0;
                 while((x>=(pos.x-pos.y))and(y>=0)){
                     list.push_back((Rectangle){x*Block_Size, y*Block_Size, Block_Size, Block_Size});
                     x--;
